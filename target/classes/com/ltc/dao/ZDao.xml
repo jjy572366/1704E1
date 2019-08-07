@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ltc.dao.ZDao">
+	<select id="list" resultType="com.ltc.domain.ZW">
+		select * from zw a LEFT JOIN types b on a.cid=b.cid
+		<where>
+			<if test="z.name!=null and z.name!=''">
+				and a.name like concat('%',#{z.name},'%')
+			</if>
+		</where>
+		limit #{page},#{rows}
+	</select>
+	<select id="count" resultType="int">
+		select count(*) from zw a
+		<where>
+			<if test="z.name!=null and z.name!=''">
+				and a.name like concat('%',#{z.name},'%')
+			</if>
+		</where>
+	</select>
+	<select id="getlist" resultType="com.ltc.domain.Types">
+		select * from types
+	</select>
+	<insert id="add">
+		insert into zw (name,ms,cid) value (#{name},#{ms},#{cid})
+	</insert>
+	<delete id="del">
+		delete from zw where id = #{id}
+	</delete>
+	<select id="getbyid" resultType="com.ltc.domain.ZW">
+		select * from zw where id = #{id}
+	</select>
+	<update id="update">
+		update zw set name=#{name},ms=#{ms},cid=#{cid} where id=#{id}
+	</update>
+	
+</mapper>
